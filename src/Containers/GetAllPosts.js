@@ -18,29 +18,62 @@ const GetAllPosts = () => {
         console.log("Err", err);
       });
     dispatch(GET_ALL_POSTS(response.data.posts));
+    console.log("all", response.data.posts);
   };
 
   useEffect(() => {
     fetchPosts();
   }, []);
-  console.log(Posts);
 
   return (
-    <div className="allpost">
-      <center>
-        {Posts.map((p, index) => (
-          <div key={index} className="card text-white  mb-3">
-            <Link to={`/p/${p._id}`}>
-              <div className="card-header">{p.title}</div>
-              <div className="card-body">
-                <h5 className="card-title">{p.content}</h5>
-                <h5 className="card-title">{p.createdAt}</h5>
+    <>
+      <div className="container-fluid">
+        <section className="main-card-container my-5 ">
+          {Posts.map((p, index) => (
+            <div className="card-container">
+              <div
+                key={p._id}
+                className="card text-white  mb-5 text-break border-dark"
+              >
+                <Link
+                  key={index}
+                  to={`/p/${p._id}`}
+                  style={{
+                    textDecoration: "none",
+                    width: "100%",
+                  }}
+                >
+                  <div className="card-header bg-dark text-white">
+                    {p.title}
+                  </div>
+                  <div className="p-2">
+                    <p>
+                      Posted on :{" "}
+                      {new Intl.DateTimeFormat("en-IN", {
+                        year: "numeric",
+                        month: "long",
+                        day: "2-digit",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      }).format(p.createdAt)}
+                    </p>
+                  </div>
+                  <div className="card-body text-decoration-none">
+                    <p className="card-title text-dark text-center">
+                      {p.content}
+                    </p>
+                  </div>
+                  <center>
+                    {" "}
+                    <button className="btn btn-primary mb-3 px-5">VIEW</button>
+                  </center>
+                </Link>
               </div>
-            </Link>
-          </div>
-        ))}
-      </center>
-    </div>
+            </div>
+          ))}
+        </section>
+      </div>
+    </>
   );
 };
 
